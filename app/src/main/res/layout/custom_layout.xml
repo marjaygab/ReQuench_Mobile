@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:orientation="vertical"
+        android:rowCount="1">
+
+        <ImageView
+            android:id="@+id/image_temp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="left"
+            android:layout_margin="10dp"
+            android:src="@drawable/cold_drop" />
+
+        <TextView
+            android:id="@+id/machine_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@+id/image_temp"
+            android:text="Chez Rafael Building"
+            android:textColor="#4A494A"
+            android:textSize="15dp"
+
+            />
+
+        <TextView
+            android:id="@+id/amount_dispensed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_toRightOf="@+id/machine_location"
+            android:text="0.00 mL"
+            android:textColor="#4A494A" />
+
+    </GridLayout>
+
+
+</RelativeLayout>
