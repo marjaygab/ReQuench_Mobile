@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     public static String response_json;
     private String user,pass;
     private boolean response_flag=false;
-    private String url = "http://requench.000webhostapp.com/Mobile_Login.php";
+    private String url = "https://requench-rest.herokuapp.com/Mobile_Login.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         final EditText user_field, pass_field;

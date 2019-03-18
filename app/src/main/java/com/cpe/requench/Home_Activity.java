@@ -121,7 +121,11 @@ public class Home_Activity extends AppCompatActivity implements NavigationView.O
                 Toast.makeText(this,"Profile",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_history:
-                Toast.makeText(this,"History",Toast.LENGTH_SHORT).show();
+                bundle.putString("JSON_Response",fetchIntentValue());
+                Recent_Activity_Fragment activities = new Recent_Activity_Fragment();
+                activities.setArguments(bundle);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,activities).commit();
+                Log.i("Activities","Committed!");
                 break;
             case R.id.nav_generate:
                 Toast.makeText(this,"Generate",Toast.LENGTH_SHORT).show();

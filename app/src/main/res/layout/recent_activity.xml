@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Recent_Activity_Fragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/recent_transactions"
+        >
+        <TextView
+            android:id="@+id/recent_transaction_label"
+            android:text="Recent Transactions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="25dp"
+            android:padding="5dp"
+            android:textColor="#4A494A"
+            android:textStyle="bold"/>
+
+        <ListView
+            android:id="@+id/recent_activity_list"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:textColor="#4A494A"></ListView>
+
+        <TextView
+            android:text="Show:"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:textColor="#4A494A"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:id="@+id/checkbox_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+            <CheckBox
+                android:id="@+id/transactions_checkbox"
+                android:checked="true"
+                android:text="Show Transactions"
+                android:textColor="#4A494A"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+            <CheckBox
+                android:id="@+id/purchase_checkbox"
+                android:checked="true"
+                android:textColor="#4A494A"
+                android:text="Show Purchases"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <TextView
+            android:text="Order By:"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:textColor="#4A494A"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:id="@+id/sorter_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+           <Spinner
+               android:id="@+id/category_spinner"
+               android:layout_width="0dp"
+               android:textColor="#4A494A"
+               android:layout_weight="1"
+               android:layout_height="wrap_content"/>
+            <Spinner
+                android:id="@+id/order_spinner"
+                android:layout_width="0dp"
+                android:textColor="#4A494A"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

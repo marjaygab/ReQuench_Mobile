@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -33,6 +34,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.vansuita.pickimage.bean.PickResult;
@@ -49,7 +51,9 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.sql.Date;
 import java.sql.Time;
+import java.util.Dictionary;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Random;
@@ -78,11 +82,15 @@ public class Profile_Fragment extends Fragment{
     private String url;
     private JSONObject fetched_json,response_object;
     private JSONArray response_array;
-    private String Account_ID,Access_Level,FN,LN,Balance,email,ID_Number;
+    private String Account_ID,Access_Level,FN,LN,Balance,email_string,ID_Number;
     private String fragment_message,image_str,file_name;
-    private TextView fullname,id_number,email_text;
+    private TextView fullname,id_number_string,email_text;
     private ImageView profile_image;
+    private Dictionary edit_text_components;
     private FloatingActionButton picture_button;
+    private EditText firstname,lastname,id_number,username,password,email,phonenumber;
+    private EditText[] edit_text_elements = {firstname,lastname,id_number,username,password,email,phonenumber};
+    private int[] edit_text_id = {R.id.firstname,R.id.lastname,R.id.id_number,R.id.username,R.id.password,R.id.email,R.id.phonenumber};
     public static final int REQUEST_IMAGE_CAPTURE = 1;
     public enum Commands{
         INIT_PROFILE,EDIT_PROFILE,UPLOAD_IMAGE
@@ -125,11 +133,16 @@ public class Profile_Fragment extends Fragment{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         requestqueue = Volley.newRequestQueue(getActivity().getApplicationContext());
         handler = new Handler();
-        fullname = getView().findViewById(R.id.fullname);
-        id_number = getView().findViewById(R.id.id_number);
-        email_text = getView().findViewById(R.id.email);
-        profile_image = getView().findViewById(R.id.profile_image);
-        picture_button = getView().findViewById(R.id.picture_button);
+        edit_text_components = new Hashtable();
+        picture_button = view.findViewById(R.id.picture_button);
+        profile_image = view.findViewById(R.id.profile_image);
+        firstname = view.findViewById(R.id.firstname);
+        lastname = view.findViewById(R.id.lastname);
+        id_number = view.findViewById(R.id.id_number);
+        username = view.findViewById(R.id.username);
+        password = view.findViewById(R.id.password);
+        email = view.findViewById(R.id.email);
+        phonenumber = view.findViewById(R.id.phonenumber);
 
 
         try {
@@ -139,17 +152,16 @@ public class Profile_Fragment extends Fragment{
             Access_Level = account_details.getString("Access_Level");
             FN = account_details.getString("First_Name");
             LN = account_details.getString("Last_Name");
-            fullname.setText(FN + " "+ LN);
+            firstname.setText(FN);
+            lastname.setText(LN);
             Log.i("Access_Level",Access_Level);
-            if (!Access_Level.equals("USER")){
-                ID_Number = account_details.getString("Employee_Number");
-            }else{
-                ID_Number = account_details.getString("Student_Number");
-            }
+            ID_Number = account_details.getString("ID_Number");
+            username.setText(account_details.getString("User_Name"));
+            password.setText(account_details.getString("Password"));
             Log.i("ID NUMBER",ID_Number);
             id_number.setText(ID_Number);
-            email = account_details.getString("Email");
-            email_text.setText(email);
+            email_string = account_details.getString("Email");
+            email.setText(email_string);
             Balance = account_details.getString("Balance");
             requestHTTP(Commands.INIT_PROFILE);
             Log.i("Info Gathered",fragment_message);
@@ -194,60 +206,56 @@ public class Profile_Fragment extends Fragment{
 
     private void requestHTTP(Commands command){
         final Commands comm = command;
+        JsonObjectRequest postRequest;
+        JSONObject params = new JSONObject();
+
         switch (comm){
             case INIT_PROFILE:
-                url = "https://requench.000webhostapp.com/Fetch_Image.php";
-                stringrequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                try {
+                    params.put("Acc_ID",Account_ID);
+                }catch(Exception e){
+                    Log.i("Error.Response", e.toString());
+                }
+                url = "https://requench-rest.herokuapp.com/Fetch_Image.php";
+                postRequest = new JsonObjectRequest(Request.Method.POST, url, params, new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(String response) {
-                        JSONObject temp_object;
+                    public void onResponse(JSONObject response) {
+                        String fetched_base_64 = null;
                         try {
-//                            do something with the profile data here
-                            response_object = new JSONObject(response);
-
-                            Log.i("JSON Array",response);
-                            String fetched_base_64 = response_object.getString("image");
+                            fetched_base_64 = response.getString("image");
                             byte[] decodedString = Base64.decode(fetched_base_64, Base64.DEFAULT);
                             Bitmap decodedimage = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                             profile_image.setImageBitmap(decodedimage);
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
                     }
+
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(getActivity().getApplicationContext(),"An Error Occured" + error.getMessage(),Toast.LENGTH_SHORT).show();
                     }
-                }){
-                    @Override
-                    protected Map<String,String> getParams(){
-                        Map<String,String> MyData = new HashMap<String,String>();
-                        MyData.put("Acc_ID",Account_ID);
-                        return MyData;
-                    }
-
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        Map<String,String> params = new HashMap<String, String>();
-                        Log.i("Response","Headers POSTED");
-                        params.put("Content-Type","application/x-www-form-urlencoded");
-                        return params;
-                    }
-                };
-
-                requestqueue.add(stringrequest);
+                });
+                requestqueue.add(postRequest);
                 break;
 
             case EDIT_PROFILE:
                 break;
             case UPLOAD_IMAGE:
-                url = "https://requench.000webhostapp.com/Upload_Image.php";
-                stringrequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                try {
+                    params.put("Acc_ID",Account_ID);
+                    params.put("image_string",image_str);
+                    params.put("file_name",file_name);
+                }catch(Exception e){
+                    Log.i("Error.Response", e.toString());
+                }
+                url = "https://requench-rest.herokuapp.com/Upload_Image.php";
+
+                postRequest = new JsonObjectRequest(Request.Method.POST, url, params, new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(String response) {
+                    public void onResponse(JSONObject response) {
                         Toast.makeText(getContext(),"Image Uploaded",Toast.LENGTH_SHORT).show();
                         FragmentTransaction ft = getFragmentManager().beginTransaction();
                         ft.detach(getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_container))
@@ -259,27 +267,9 @@ public class Profile_Fragment extends Fragment{
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(getActivity().getApplicationContext(),"An Error Occured" + error.getMessage(),Toast.LENGTH_SHORT).show();
                     }
-                }){
-                    @Override
-                    protected Map<String,String> getParams(){
-                        Map<String,String> MyData = new HashMap<String,String>();
-                        MyData.put("image_string",image_str);
-                        MyData.put("file_name",file_name);
-                        MyData.put("Acc_ID",Account_ID);
+                });
 
-                        return MyData;
-                    }
-
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        Map<String,String> params = new HashMap<String, String>();
-                        Log.i("Response","Headers POSTED");
-                        params.put("Content-Type","application/x-www-form-urlencoded");
-                        return params;
-                    }
-                };
-
-                requestqueue.add(stringrequest);
+                requestqueue.add(postRequest);
                 break;
         }
 
