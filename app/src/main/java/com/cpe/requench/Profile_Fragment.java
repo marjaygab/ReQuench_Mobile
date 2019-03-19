@@ -85,6 +85,7 @@ public class Profile_Fragment extends Fragment{
     private String Account_ID,Access_Level,FN,LN,Balance,email_string,ID_Number;
     private String fragment_message,image_str,file_name;
     private TextView fullname,id_number_string,email_text;
+    private TextView edit_account,edit_email,edit_phone;
     private ImageView profile_image;
     private Dictionary edit_text_components;
     private FloatingActionButton picture_button;
@@ -143,6 +144,16 @@ public class Profile_Fragment extends Fragment{
         password = view.findViewById(R.id.password);
         email = view.findViewById(R.id.email);
         phonenumber = view.findViewById(R.id.phonenumber);
+        edit_account = view.findViewById(R.id.edit_account);
+        edit_phone = view.findViewById(R.id.edit_phone);
+        edit_email = view.findViewById(R.id.edit_email);
+        firstname.setEnabled(false);
+        lastname.setEnabled(false);
+        id_number.setEnabled(false);
+        username.setEnabled(false);
+        password.setEnabled(false);
+        email.setEnabled(false);
+        phonenumber.setEnabled(false);
 
 
         try {
@@ -201,6 +212,58 @@ public class Profile_Fragment extends Fragment{
 
 
         });
+
+        edit_account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (edit_account.getText().equals("Edit")){
+                    edit_account.setText("Save");
+                    firstname.setEnabled(true);
+                    lastname.setEnabled(true);
+                    id_number.setEnabled(true);
+                    username.setEnabled(true);
+                    password.setEnabled(true);
+
+                }else{
+                    edit_account.setText("Edit");
+                    firstname.setEnabled(false);
+                    lastname.setEnabled(false);
+                    id_number.setEnabled(false);
+                    username.setEnabled(false);
+                    password.setEnabled(false);
+                    //save here
+                }
+            }
+        });
+
+        edit_email.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (edit_email.getText().equals("Edit")){
+                    edit_email.setText("Save");
+                    email.setEnabled(true);
+                }else{
+                    edit_email.setText("Edit");
+                    email.setEnabled(false);
+                    //save here
+                }
+            }
+        });
+
+        edit_phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (edit_phone.getText().equals("Edit")){
+                    edit_phone.setText("Save");
+                    phonenumber.setEnabled(true);
+                }else{
+                    edit_phone.setText("Edit");
+                    phonenumber.setEnabled(false);
+                }
+            }
+        });
+
+
 
     }
 
