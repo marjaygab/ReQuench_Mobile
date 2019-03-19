@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Base64;
 import android.util.Log;
@@ -49,6 +50,7 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.Dictionary;
@@ -57,6 +59,8 @@ import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Random;
+
+
 
 
 ///**
@@ -72,7 +76,7 @@ public class Profile_Fragment extends Fragment{
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    private Boolean response_flag = false;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -85,19 +89,21 @@ public class Profile_Fragment extends Fragment{
     private String Account_ID,Access_Level,FN,LN,Balance,email_string,ID_Number;
     private String fragment_message,image_str,file_name;
     private TextView fullname,id_number_string,email_text;
-    private TextView edit_account,edit_email,edit_phone;
+    private TextView edit_account,edit_email,edit_phone,new_password_label,password_label;
     private ImageView profile_image;
     private Dictionary edit_text_components;
     private FloatingActionButton picture_button;
-    private EditText firstname,lastname,id_number,username,password,email,phonenumber;
+    private EditText firstname,lastname,id_number,username,password,new_password,email,phonenumber;
     private EditText[] edit_text_elements = {firstname,lastname,id_number,username,password,email,phonenumber};
     private int[] edit_text_id = {R.id.firstname,R.id.lastname,R.id.id_number,R.id.username,R.id.password,R.id.email,R.id.phonenumber};
+    private CustomResponseListener my_response_listener;
+    Response.Listener<JSONObject> response_listener;
+    Response.ErrorListener errorListener;
     public static final int REQUEST_IMAGE_CAPTURE = 1;
+    JSONObject params;
     public enum Commands{
-        INIT_PROFILE,EDIT_PROFILE,UPLOAD_IMAGE
+        INIT_PROFILE,EDIT_PROFILE,UPLOAD_IMAGE,EDIT_ACCOUNT,EDIT_EMAIL,EDIT_PHONE,EDIT_PASSWORD
     }
-
-
     public Profile_Fragment() {
         // Required empty public constructor
     }
@@ -142,11 +148,14 @@ public class Profile_Fragment extends Fragment{
         id_number = view.findViewById(R.id.id_number);
         username = view.findViewById(R.id.username);
         password = view.findViewById(R.id.password);
+        new_password = view.findViewById(R.id.new_password);
         email = view.findViewById(R.id.email);
         phonenumber = view.findViewById(R.id.phonenumber);
         edit_account = view.findViewById(R.id.edit_account);
         edit_phone = view.findViewById(R.id.edit_phone);
         edit_email = view.findViewById(R.id.edit_email);
+        new_password_label = view.findViewById(R.id.new_password_label);
+        password_label = view.findViewById(R.id.password_label);
         firstname.setEnabled(false);
         lastname.setEnabled(false);
         id_number.setEnabled(false);
@@ -154,7 +163,12 @@ public class Profile_Fragment extends Fragment{
         password.setEnabled(false);
         email.setEnabled(false);
         phonenumber.setEnabled(false);
-
+        errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getActivity().getApplicationContext(),"An Error Occured: " + error.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        };
 
         try {
             JSONObject fragment_object = new JSONObject(fragment_message);
@@ -223,15 +237,46 @@ public class Profile_Fragment extends Fragment{
                     id_number.setEnabled(true);
                     username.setEnabled(true);
                     password.setEnabled(true);
-
+                    password_label.setText("Old Password");
+                    new_password_label.setVisibility(View.VISIBLE);
+                    new_password.setVisibility(View.VISIBLE);
                 }else{
-                    edit_account.setText("Edit");
-                    firstname.setEnabled(false);
-                    lastname.setEnabled(false);
-                    id_number.setEnabled(false);
-                    username.setEnabled(false);
-                    password.setEnabled(false);
                     //save here
+                    params = new JSONObject();
+                    try {
+//                        params.put("Command","password");
+//                        params.put("Acc_ID",Account_ID);
+//                        params.put("Old_Password",password.getText());
+//                        params.put("New_Password",new_password.getText());
+
+                        //requestHTTP(Commands.EDIT_PASSWORD);
+
+
+//                        params = new JSONObject();
+//
+//                        params.put("Command","account");
+//                        params.put("Acc_ID",Account_ID);
+//                        params.put("First_Name",firstname.getText());
+//                        params.put("Last_Name",lastname.getText());
+//                        params.put("ID_Number",id_number.getText());
+//                        params.put("User_Name",username.getText());
+//                        params.put("Password",password.getText());
+
+//                        requestHTTP(Commands.EDIT_ACCOUNT);
+
+                        edit_account.setText("Edit");
+                        firstname.setEnabled(false);
+                        lastname.setEnabled(false);
+                        id_number.setEnabled(false);
+                        username.setEnabled(false);
+                        password.setEnabled(false);
+                        new_password_label.setVisibility(View.GONE);
+                        new_password.setText("");
+                        new_password.setVisibility(View.GONE);
+                        password_label.setText("Password");
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -246,6 +291,13 @@ public class Profile_Fragment extends Fragment{
                     edit_email.setText("Edit");
                     email.setEnabled(false);
                     //save here
+                    params = new JSONObject();
+                    try {
+                        params.put("Email",email.getText());
+                        requestHTTP(Commands.EDIT_EMAIL);
+                    }catch(Exception e){
+                        Log.i("Error.Response", e.toString());
+                    }
                 }
             }
         });
@@ -259,6 +311,13 @@ public class Profile_Fragment extends Fragment{
                 }else{
                     edit_phone.setText("Edit");
                     phonenumber.setEnabled(false);
+                    params = new JSONObject();
+                    try {
+                        params.put("Email",phonenumber.getText());
+                        requestHTTP(Commands.EDIT_PHONE);
+                    }catch(Exception e){
+                        Log.i("Error.Response", e.toString());
+                    }
                 }
             }
         });
@@ -267,11 +326,9 @@ public class Profile_Fragment extends Fragment{
 
     }
 
-    private void requestHTTP(Commands command){
+    private Boolean requestHTTP(Commands command){
         final Commands comm = command;
         JsonObjectRequest postRequest;
-        JSONObject params = new JSONObject();
-
         switch (comm){
             case INIT_PROFILE:
                 try {
@@ -280,6 +337,16 @@ public class Profile_Fragment extends Fragment{
                     Log.i("Error.Response", e.toString());
                 }
                 url = "https://requench-rest.herokuapp.com/Fetch_Image.php";
+                response_listener = new Response.Listener<JSONObject>() {
+                    private Boolean response_success = false;
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        //response here
+                    }
+                    public Boolean getResponse_success() {
+                        return response_success;
+                    }
+                };
                 postRequest = new JsonObjectRequest(Request.Method.POST, url, params, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -295,18 +362,24 @@ public class Profile_Fragment extends Fragment{
 
                     }
 
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getActivity().getApplicationContext(),"An Error Occured" + error.getMessage(),Toast.LENGTH_SHORT).show();
-                    }
-                });
+                },errorListener);
                 requestqueue.add(postRequest);
                 break;
 
             case EDIT_PROFILE:
                 break;
+            case EDIT_ACCOUNT:
+                url = "https://requench-rest.herokuapp.com/Tester.php";
+                break;
+            case EDIT_EMAIL:
+                break;
+            case EDIT_PHONE:
+                break;
+            case EDIT_PASSWORD:
+                break;
+
             case UPLOAD_IMAGE:
+                params = new JSONObject();
                 try {
                     params.put("Acc_ID",Account_ID);
                     params.put("image_string",image_str);
@@ -335,8 +408,18 @@ public class Profile_Fragment extends Fragment{
                 requestqueue.add(postRequest);
                 break;
         }
-
+        return false;
     }
 
+
+
+    abstract class CustomResponseListener implements Response.Listener<JSONObject>{
+        private Boolean isSuccessful = false;
+
+        @Override
+        public abstract void onResponse(JSONObject response);
+
+        public abstract Boolean getSuccessful();
+    }
 
 }

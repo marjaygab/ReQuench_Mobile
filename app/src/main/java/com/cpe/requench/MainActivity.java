@@ -97,12 +97,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void authorize(){
-
         //Put trigger to next page here
         Intent intent = new Intent(getApplicationContext(),Home_Activity.class);
         intent.putExtra("fetched",response_object.toString());
         startActivity(intent);
-
     }
 
 

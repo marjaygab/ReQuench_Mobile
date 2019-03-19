@@ -17,9 +17,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
+            android:name=".Admin_Activity"
+            android:label="@string/title_activity_admin_"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+        <activity
             android:name=".Main2Activity"
             android:label="@string/title_activity_main2"
-            android:theme="@style/NoActionBar"></activity>
+            android:theme="@style/NoActionBar" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

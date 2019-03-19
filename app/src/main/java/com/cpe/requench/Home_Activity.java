@@ -40,8 +40,6 @@ import java.util.LinkedList;
 import java.util.Map;
 
 public class Home_Activity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
-
     private DrawerLayout drawer;
     private TextView fullname,email;
     private NavigationView navigationView;
