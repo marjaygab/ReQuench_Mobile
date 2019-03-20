@@ -84,7 +84,7 @@ public class Profile_Fragment extends Fragment{
     private RequestQueue requestqueue;
     private Handler handler;
     private String url;
-    private JSONObject fetched_json,response_object;
+    private JSONObject fetched_json,response_object,fragment_object,account_details;
     private JSONArray response_array;
     private String Account_ID,Access_Level,FN,LN,Balance,email_string,ID_Number;
     private String fragment_message,image_str,file_name;
@@ -102,7 +102,7 @@ public class Profile_Fragment extends Fragment{
     public static final int REQUEST_IMAGE_CAPTURE = 1;
     JSONObject params;
     public enum Commands{
-        INIT_PROFILE,EDIT_PROFILE,UPLOAD_IMAGE,EDIT_ACCOUNT,EDIT_EMAIL,EDIT_PHONE,EDIT_PASSWORD
+        INIT_PROFILE,EDIT_PROFILE,UPLOAD_IMAGE,EDIT_ACCOUNT,EDIT_EMAIL,EDIT_PHONE,EDIT_PASSWORD, EDIT_ACCPASS,UPDATE_PROFILE
     }
     public Profile_Fragment() {
         // Required empty public constructor
@@ -171,8 +171,8 @@ public class Profile_Fragment extends Fragment{
         };
 
         try {
-            JSONObject fragment_object = new JSONObject(fragment_message);
-            JSONObject account_details = fragment_object.getJSONObject("Account_Details");
+            fragment_object = new JSONObject(fragment_message);
+            account_details = fragment_object.getJSONObject("Account_Details");
             Account_ID = account_details.getString("Acc_ID");
             Access_Level = account_details.getString("Access_Level");
             FN = account_details.getString("First_Name");
@@ -242,28 +242,9 @@ public class Profile_Fragment extends Fragment{
                     new_password.setVisibility(View.VISIBLE);
                 }else{
                     //save here
-                    params = new JSONObject();
                     try {
-//                        params.put("Command","password");
-//                        params.put("Acc_ID",Account_ID);
-//                        params.put("Old_Password",password.getText());
-//                        params.put("New_Password",new_password.getText());
-
-                        //requestHTTP(Commands.EDIT_PASSWORD);
-
-
-//                        params = new JSONObject();
-//
-//                        params.put("Command","account");
-//                        params.put("Acc_ID",Account_ID);
-//                        params.put("First_Name",firstname.getText());
-//                        params.put("Last_Name",lastname.getText());
-//                        params.put("ID_Number",id_number.getText());
-//                        params.put("User_Name",username.getText());
-//                        params.put("Password",password.getText());
-
-//                        requestHTTP(Commands.EDIT_ACCOUNT);
-
+                        requestHTTP(Commands.EDIT_ACCPASS);
+                        requestHTTP(Commands.UPDATE_PROFILE);
                         edit_account.setText("Edit");
                         firstname.setEnabled(false);
                         lastname.setEnabled(false);
@@ -274,6 +255,10 @@ public class Profile_Fragment extends Fragment{
                         new_password.setText("");
                         new_password.setVisibility(View.GONE);
                         password_label.setText("Password");
+
+                        Fragment fragment = getFragmentManager().findFragmentById(R.id.fragment_container);
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        ft.detach(fragment).attach(fragment).commit();
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -375,7 +360,34 @@ public class Profile_Fragment extends Fragment{
                 break;
             case EDIT_PHONE:
                 break;
+
             case EDIT_PASSWORD:
+                break;
+            case EDIT_ACCPASS:
+                params = new JSONObject();
+                url = "https://requench-rest.herokuapp.com/Update_Account.php";
+                try {
+                    params.put("Acc_ID",Account_ID);
+                    params.put("Command","accpass");
+                    params.put("First_Name",firstname.getText());
+                    params.put("Last_Name",lastname.getText());
+                    params.put("User_Name",username.getText());
+                    params.put("Old_Password",password.getText());
+                    params.put("New_Password",new_password.getText());
+                    params.put("ID_Number",id_number.getText());
+                }catch(Exception e){
+                    Log.i("Error.Response", e.toString());
+                }
+                postRequest = new JsonObjectRequest(Request.Method.POST, url, params, response -> {
+                    Log.i("Response HTTP",response.toString());
+                    try {
+                        if (response.get("Update_Success").equals("true"))
+                            Toast.makeText(getContext(),"Account Updated!",Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },errorListener);
+                requestqueue.add(postRequest);
                 break;
 
             case UPLOAD_IMAGE:
@@ -406,6 +418,29 @@ public class Profile_Fragment extends Fragment{
                 });
 
                 requestqueue.add(postRequest);
+                break;
+            case UPDATE_PROFILE:
+                url = "https://requench-rest.herokuapp.com/Fetch_Profile.php";
+                params = new JSONObject();
+
+                try{
+                    params.put("Acc_ID",Account_ID);
+                }catch(Exception ex){
+                    ex.printStackTrace();
+                }
+
+                postRequest = new JsonObjectRequest(Request.Method.POST, url, params, response -> {
+                    Log.i("Response HTTP",response.toString());
+                    try {
+                        if (response.getBoolean("Success"))
+                            Toast.makeText(getContext(),"Profile Updated!",Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },errorListener);
+
+                requestqueue.add(postRequest);
+
                 break;
         }
         return false;
