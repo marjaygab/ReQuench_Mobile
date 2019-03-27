@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:rowCount="1">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
+            <LinearLayout
+                android:layout_width="328dp"
+                android:layout_height="match_parent"
+                android:layout_row="1"
+                android:layout_column="1"
+                android:layout_weight="8"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/machine_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/image"
+                    android:text="Machine ID"
+                    android:textColor="#4A494A"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/machine_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/image"
+                    android:text="Location: Chez Rafael"
+                    android:textColor="#4A494A"
+                    android:textSize="10dp" />
+
+                <TextView
+                    android:id="@+id/maintenance_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Last Maintenance Date : 2019-03-15 00:00:00"
+                    android:textColor="#4A494A"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/api_key"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="API Key : 566ee18ea4eebbc485074e045381ae98"
+                    android:textColor="#4A494A"
+                    android:textSize="10sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/water_level_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Water Level"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:id="@+id/water_level_percentage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0%"
+                        android:textAlignment="center" />
+
+                    <ProgressBar
+                        android:id="@+id/water_level_progress"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+            <CheckBox
+                style="@style/Widget.AppCompat.CompoundButton.RadioButton"
+                android:id="@+id/machine_status"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="100dp"
+                android:layout_weight="2"
+                android:clickable="false"/>
+        </LinearLayout>
+
+
+
+
+
+
+
+
+    </GridLayout>
+
+
+</RelativeLayout>

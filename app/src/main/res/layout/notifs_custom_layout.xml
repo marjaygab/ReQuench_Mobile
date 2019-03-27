@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:rowCount="1">
+
+        <ImageView
+            android:id="@+id/notif_image"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="left"
+
+            android:layout_margin="20dp"
+            android:src="@drawable/logo" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
+            <LinearLayout
+                android:layout_width="237dp"
+                android:layout_height="match_parent"
+                android:layout_row="1"
+                android:layout_column="1"
+                android:layout_weight="7"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/notif_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/image"
+                    android:text="Notif_Title"
+                    android:textColor="#4A494A"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/notif_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/image"
+                    android:text="Notif Description"
+                    android:textColor="#4A494A"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/notif_date_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/image"
+                    android:text="2019-03-15 00:00:00"
+                    android:textColor="#4A494A"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+            <CheckBox
+                style="@style/Widget.AppCompat.CompoundButton.RadioButton"
+                android:id="@+id/seen_notif"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="40dp"
+                android:layout_weight="2"/>
+        </LinearLayout>
+
+
+
+
+
+
+
+
+    </GridLayout>
+
+
+</RelativeLayout>

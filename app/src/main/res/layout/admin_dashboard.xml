@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:id="@+id/switch_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Switch
+            android:id="@+id/mode_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:textOff="ADMIN MODE"
+            android:textOn="CUSTOMER MODE" />
+
+        <TextView
+            android:id="@+id/mode_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/mode_switch"
+            android:layout_toRightOf="@id/mode_switch"
+            android:text="ADMIN MODE" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/customer_mode"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/switch_header"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/balance_details"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="#fff"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="Available Balance"
+                android:textAlignment="center"
+                android:textColor="#4A494A" />
+
+            <TextView
+                android:id="@+id/balance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0.00 mL"
+                android:textAlignment="center"
+                android:textColor="#1EB3BE"
+                android:textSize="50dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/recent_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/balance_details"
+            android:text="RECENT TRANSACTION"
+            android:textAlignment="center"
+            android:textColor="#834a494a" />
+
+        <ListView
+            android:id="@+id/recent_list"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_below="@id/recent_label"
+            android:divider="@drawable/divider"
+            android:dividerHeight="1px"></ListView>
+
+
+        <TextView
+            android:id="@+id/seemore_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/recent_list"
+            android:text="SEE MORE"
+            android:textAlignment="center"
+            android:textColor="#1EB3BE" />
+
+        <LinearLayout
+            android:id="@+id/temp_pass_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/seemore_label"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal"
+            android:weightSum="6">
+
+            <TextView
+                android:id="@+id/temp_pass_first"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="-"
+                android:textAlignment="center"
+                android:textColor="#1EB3BE"
+                android:textSize="50dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/temp_pass_second"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="-"
+                android:textAlignment="center"
+                android:textColor="#1EB3BE"
+                android:textSize="50dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/temp_pass_third"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="-"
+                android:textAlignment="center"
+                android:textColor="#1EB3BE"
+                android:textSize="50dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/temp_pass_fourth"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="-"
+                android:textAlignment="center"
+                android:textColor="#1EB3BE"
+                android:textSize="50dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/temp_pass_fifth"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="-"
+                android:textAlignment="center"
+                android:textColor="#1EB3BE"
+                android:textSize="50dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/temp_pass_sixth"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="-"
+                android:textAlignment="center"
+                android:textColor="#1EB3BE"
+                android:textSize="50dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/timer_bar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/temp_pass_field"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp" />
+
+        <Button
+            android:id="@+id/generate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/timer_bar"
+            android:background="@drawable/rounded_button_generate"
+            android:text="Generate Password" />
+
+        <TextView
+            android:id="@+id/empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/recent_list"
+            android:textAlignment="center"
+            android:textColor="#1EB3BE"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/admin_mode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/switch_header"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:clipToPadding="false"
+            android:overScrollMode="never"></android.support.v4.view.ViewPager>
+
+        <TextView
+            android:id="@+id/seemore_label_machine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="SEE MORE"
+            android:textAlignment="center" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:text="Recent Notifications"
+            android:textSize="23dp" />
+
+        <ListView
+            android:id="@+id/recent_notifs"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"></ListView>
+
+        <TextView
+            android:id="@+id/seemore_label_notif"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="SEE MORE"
+            android:textAlignment="center" />
+
+    </LinearLayout>
+
+</RelativeLayout>

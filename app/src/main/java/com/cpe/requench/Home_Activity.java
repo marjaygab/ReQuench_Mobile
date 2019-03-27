@@ -1,7 +1,10 @@
 package com.cpe.requench;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -42,9 +45,11 @@ import java.util.Map;
 public class Home_Activity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
     private TextView fullname,email;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private ImageView profile_image;
     private NavigationView navigationView;
     private String Acc_ID,Access_Level,image_string;
-    private ImageView profile_image;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +59,8 @@ public class Home_Activity extends AppCompatActivity implements NavigationView.O
         drawer =findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        editor = sharedPreferences.edit();
 
         fullname = navigationView.getHeaderView(0).findViewById(R.id.fullname);
         email = navigationView.getHeaderView(0).findViewById(R.id.email);
@@ -129,7 +136,12 @@ public class Home_Activity extends AppCompatActivity implements NavigationView.O
                 Toast.makeText(this,"Generate",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_signout:
-                Toast.makeText(this,"Sign Out",Toast.LENGTH_SHORT).show();
+                editor.remove("Acc_ID");
+                editor.commit();
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(intent);
+                finish();
+                //clear token here
                 break;
         }
 

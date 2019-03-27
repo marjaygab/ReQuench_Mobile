@@ -16,14 +16,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+        <service android:name="com.cpe.requench.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+
         <activity
             android:name=".Admin_Activity"
             android:label="@string/title_activity_admin_"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".Main2Activity"
             android:label="@string/title_activity_main2"
             android:theme="@style/NoActionBar" />
+        <activity android:name=".MainActivity"
+            android:label="Main Activity_"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -36,7 +48,7 @@
                 android:resource="@xml/picker_provider_paths" />
         </provider>
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -44,6 +56,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Home_Activity" />
+
     </application>
 
 </manifest>

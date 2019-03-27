@@ -209,8 +209,6 @@ public class DashboardFragment extends Fragment {
         final Commands command = comm;
         JsonObjectRequest postRequest;
         JSONObject params = new JSONObject();
-
-
         switch(command){
             case GET_HISTORY:
                 url = "https://requench-rest.herokuapp.com/Fetch_History.php";
@@ -260,9 +258,6 @@ public class DashboardFragment extends Fragment {
                                     for (int i = recent_activity.size()-1; i>5 ;  i--){
                                         recent_activity.remove(i);
                                     }
-
-
-
                                     recent_list.setAdapter(adapter);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -377,8 +372,6 @@ public class DashboardFragment extends Fragment {
                 requestqueue.add(postRequest);
                 break;
         }
-
-
     }
 
 

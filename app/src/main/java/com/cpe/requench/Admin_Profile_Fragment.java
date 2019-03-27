@@ -1,36 +1,24 @@
 package com.cpe.requench;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -48,19 +36,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.sql.Date;
-import java.sql.Time;
 import java.util.Dictionary;
-import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Random;
-
-
 
 
 ///**
@@ -71,7 +49,7 @@ import java.util.Random;
 // * Use the {@link Profile_Fragment#newInstance} factory method to
 // * create an instance of this fragment.
 // */
-public class Profile_Fragment extends Fragment{
+public class Admin_Profile_Fragment extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -104,7 +82,7 @@ public class Profile_Fragment extends Fragment{
     public enum Commands{
         INIT_PROFILE,EDIT_PROFILE,UPLOAD_IMAGE,EDIT_ACCOUNT,EDIT_EMAIL,EDIT_PHONE,EDIT_PASSWORD, EDIT_ACCPASS,UPDATE_PROFILE
     }
-    public Profile_Fragment() {
+    public Admin_Profile_Fragment() {
         // Required empty public constructor
     }
 
@@ -203,11 +181,11 @@ public class Profile_Fragment extends Fragment{
                 PickImageDialog.build(new PickSetup()).setOnPickResult(new IPickResult() {
                     @Override
                     public void onPickResult(PickResult pickResult) {
-                        file_name = Access_Level + "_" + Account_ID + ".png";
+                        file_name = Access_Level + "_" + Account_ID + ".jpg";
 
                         Bitmap fetched_image = pickResult.getBitmap();
                         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        fetched_image.compress(Bitmap.CompressFormat.PNG, 50, stream);
+                        fetched_image.compress(Bitmap.CompressFormat.JPEG, 50, stream);
 
                         byte [] byte_arr = stream.toByteArray();
                         image_str = Base64.encodeToString(byte_arr,Base64.DEFAULT);
@@ -257,7 +235,7 @@ public class Profile_Fragment extends Fragment{
                         new_password.setVisibility(View.GONE);
                         password_label.setText("Password");
 
-                        Fragment fragment = getFragmentManager().findFragmentById(R.id.fragment_container);
+                        Fragment fragment = getFragmentManager().findFragmentById(R.id.fragment_admin_container);
                         FragmentTransaction ft = getFragmentManager().beginTransaction();
                         ft.detach(fragment).attach(fragment).commit();
                     }catch(Exception e){
@@ -317,26 +295,21 @@ public class Profile_Fragment extends Fragment{
         JsonObjectRequest postRequest;
         switch (comm){
             case INIT_PROFILE:
+                params = new JSONObject();
                 try {
                     params.put("Acc_ID",Account_ID);
+                    Log.i("Image Param",Account_ID);
+
                 }catch(Exception e){
-                    Log.i("Error.Response", e.toString());
+                    Log.i("Error.Response Acc ID", e.toString());
                 }
                 url = "https://requench-rest.herokuapp.com/Fetch_Image.php";
-                response_listener = new Response.Listener<JSONObject>() {
-                    private Boolean response_success = false;
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        //response here
-                    }
-                    public Boolean getResponse_success() {
-                        return response_success;
-                    }
-                };
                 postRequest = new JsonObjectRequest(Request.Method.POST, url, params, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         String fetched_base_64 = null;
+                        Log.i("Image Response",response.toString());
+
                         try {
                             fetched_base_64 = response.getString("image");
                             byte[] decodedString = Base64.decode(fetched_base_64, Base64.DEFAULT);
@@ -439,14 +412,15 @@ public class Profile_Fragment extends Fragment{
                     Log.i("Error.Response", e.toString());
                 }
                 url = "https://requench-rest.herokuapp.com/Upload_Image.php";
-
+                Log.i("Image_String",image_str);
                 postRequest = new JsonObjectRequest(Request.Method.POST, url, params, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        Log.i("Image Upload",response.toString());
                         Toast.makeText(getContext(),"Image Uploaded",Toast.LENGTH_SHORT).show();
                         FragmentTransaction ft = getFragmentManager().beginTransaction();
-                        ft.detach(getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_container))
-                                .attach(getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_container))
+                        ft.detach(getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_admin_container))
+                                .attach(getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_admin_container))
                                 .commit();
                     }
                 }, new Response.ErrorListener() {
