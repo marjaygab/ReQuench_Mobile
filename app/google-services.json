@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "824630117884",
+    "firebase_url": "https://requenchweb2019.firebaseio.com",
+    "project_id": "requenchweb2019",
+    "storage_bucket": "requenchweb2019.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:824630117884:android:4745d904d4746b3b",
+        "android_client_info": {
+          "package_name": "com.cpe.requench"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "824630117884-7n7ek2athlbj3bar5q45j98cdlpro7kd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cpe.requench",
+            "certificate_hash": "24e9a2fc5c010786bb926ec1e62821457f9c37cc"
+          }
+        },
+        {
+          "client_id": "824630117884-upjdb8ovt1trt3u5coone7ndd70mfit7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxhEECFSscM1X_52a4AgL7OH89HvcwSSE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "824630117884-upjdb8ovt1trt3u5coone7ndd70mfit7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -183,7 +183,15 @@ public class Admin_Activity extends AppCompatActivity
             Admin_Recent_Activity_Fragment admin_recent_activity = new Admin_Recent_Activity_Fragment();
             admin_recent_activity.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_admin_container,admin_recent_activity).commit();
-        }else if (id == R.id.nav_admin_signout){
+        } else if (id == R.id.nav_admin_sales){
+            bundle.putString("JSON_Response",fetchIntentValue());
+            Admin_Sales_Fragment admin_sales_activity = new Admin_Sales_Fragment();
+            admin_sales_activity.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_admin_container,admin_sales_activity).commit();
+        }
+
+
+        else if (id == R.id.nav_admin_signout){
             editor.remove("Acc_ID");
             editor.commit();
             Intent intent = new Intent(getApplicationContext(),MainActivity.class);

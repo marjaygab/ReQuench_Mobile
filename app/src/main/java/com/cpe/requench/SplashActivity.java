@@ -79,7 +79,7 @@ public class SplashActivity extends AppCompatActivity{
     private void authorize(JSONObject response_object){
         //Put trigger to next page here
         try {
-            JSONObject account_details = response_object.getJSONObject("Account_Detailsx");
+            JSONObject account_details = response_object.getJSONObject("Account_Details");
             if (account_details.getString("Access_Level").equals("USER")){
                 Intent intent = new Intent(getApplicationContext(),Home_Activity.class);
                 intent.putExtra("fetched",response_object.toString());
