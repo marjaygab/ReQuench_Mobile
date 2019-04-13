@@ -224,8 +224,18 @@ public class DashboardFragment extends Fragment {
                             public void onResponse(JSONObject response) {
                                 // display response
                                 try {
-                                    response_array = response.getJSONArray("Transactions");
-                                    purchase_array = response.getJSONArray("Purchase");
+                                    try {
+                                        response_array = response.getJSONArray("Transactions");
+                                    }catch (Exception ex){
+                                        response_array = new JSONArray();
+                                    }
+
+                                    try {
+                                        purchase_array = response.getJSONArray("Purchase");
+                                    }catch (Exception ex){
+                                        purchase_array = new JSONArray();
+                                    }
+
                                     for (int i = 0; i < response_array.length();i++){
                                         JSONObject temp_object = response_array.getJSONObject(i);
                                         try{
@@ -262,7 +272,7 @@ public class DashboardFragment extends Fragment {
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-                                if (transactions.size() == 0){
+                                if (transactions.size() == 0 && purchases.size() == 0){
                                     seemore.setText("No records found");
                                 }
                             }

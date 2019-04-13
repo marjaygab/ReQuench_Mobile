@@ -189,6 +189,7 @@ public class Profile_Fragment extends Fragment{
             email_string = account_details.getString("Email");
             email.setText(email_string);
             Balance = account_details.getString("Balance");
+
             requestHTTP(Commands.INIT_PROFILE);
             Log.i("Info Gathered",fragment_message);
 
@@ -315,30 +316,24 @@ public class Profile_Fragment extends Fragment{
     private Boolean requestHTTP(Commands command){
         final Commands comm = command;
         JsonObjectRequest postRequest;
+        JSONObject params = new JSONObject();
         switch (comm){
             case INIT_PROFILE:
                 try {
                     params.put("Acc_ID",Account_ID);
+                    Log.i("Current Acc_ID",Account_ID);
                 }catch(Exception e){
                     Log.i("Error.Response", e.toString());
                 }
                 url = "https://requench-rest.herokuapp.com/Fetch_Image.php";
-                response_listener = new Response.Listener<JSONObject>() {
-                    private Boolean response_success = false;
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        //response here
-                    }
-                    public Boolean getResponse_success() {
-                        return response_success;
-                    }
-                };
                 postRequest = new JsonObjectRequest(Request.Method.POST, url, params, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         String fetched_base_64 = null;
+                        Log.i("Response: ",response.toString());
                         try {
                             fetched_base_64 = response.getString("image");
+
                             byte[] decodedString = Base64.decode(fetched_base_64, Base64.DEFAULT);
                             Bitmap decodedimage = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                             profile_image.setImageBitmap(decodedimage);
