@@ -36,12 +36,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //        }
     }
 
-    @Override
-    public void onNewToken(String s) {
-//        super.onNewToken(s);
-        Toast.makeText(getApplicationContext(),"Testing Token",Toast.LENGTH_LONG).show();
-    }
-
     public void showNotification(String title,String body){
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this,"MyNotifications")
                 .setContentTitle(title)

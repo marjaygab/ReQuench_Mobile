@@ -211,7 +211,7 @@ public class Admin_Dashboard_Fragment extends Fragment {
                         Admin_Dashboard_Fragment.ReQuench_Machine machine = (Admin_Dashboard_Fragment.ReQuench_Machine) machine_iterator.next();
                         if (machine.getMU_ID().equals(document_name)){
                             machine.setAPI_Key(documentSnapshot.getString("api_key"));
-                            machine.setCurrent_Water_Level(documentSnapshot.getDouble("current_water_level"));
+                            machine.setCurrent_Water_Level(Double.parseDouble(documentSnapshot.get("current_water_level").toString()));
                             machine.setDate_of_Purchase(Date.valueOf(documentSnapshot.getString("date_of_purchase")));
                             machine.setLast_Maintenance_Date(Date.valueOf(documentSnapshot.getString("last_maintenance_date")));
                             machine.setMachine_Location(documentSnapshot.getString("location"));
@@ -512,7 +512,7 @@ public class Admin_Dashboard_Fragment extends Fragment {
             int percent = 0;
             String percentage_string = "";
             if(current_water_level != null){
-                percentage = getPercentage(current_water_level,20000.0);
+                percentage = getPercentage(current_water_level,22500.0);
                 percent = (int) Math.round(percentage);
                 percentage_string = String.valueOf(percent);
             }else{

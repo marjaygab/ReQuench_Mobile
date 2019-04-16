@@ -129,7 +129,7 @@ public class Machine_Fragment extends Fragment {
             String percentage_string = "";
             Double current_water_level = machines.get(position).getCurrent_Water_Level();
             if(current_water_level != null){
-                percentage = getPercentage(current_water_level,20000.0);
+                percentage = getPercentage(current_water_level,22500.0);
                 percent = (int) Math.round(percentage);
                 percentage_string = String.valueOf(percent);
             }else{
