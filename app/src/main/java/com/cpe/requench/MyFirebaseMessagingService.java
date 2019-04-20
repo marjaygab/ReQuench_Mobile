@@ -34,6 +34,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //        if (remoteMessage.getNotification() != null) {
 //            Log.i("Message Notification:",remoteMessage.getNotification().getBody());
 //        }
+
     }
 
     public void showNotification(String title,String body){

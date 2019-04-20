@@ -89,20 +89,20 @@ public class Profile_Fragment extends Fragment{
     private String Account_ID,Access_Level,FN,LN,Balance,email_string,ID_Number;
     private String fragment_message,image_str,file_name;
     private TextView fullname,id_number_string,email_text;
-    private TextView edit_account,edit_email,edit_phone,new_password_label,password_label;
+    private TextView edit_account,edit_email,new_password_label,password_label;
     private ImageView profile_image;
     private Dictionary edit_text_components;
     private FloatingActionButton picture_button;
-    private EditText firstname,lastname,id_number,username,password,new_password,email,phonenumber;
-    private EditText[] edit_text_elements = {firstname,lastname,id_number,username,password,email,phonenumber};
-    private int[] edit_text_id = {R.id.firstname,R.id.lastname,R.id.id_number,R.id.username,R.id.password,R.id.email,R.id.phonenumber};
+    private EditText firstname,lastname,id_number,username,password,new_password,email;
+    private EditText[] edit_text_elements = {firstname,lastname,id_number,username,password,email};
+    private int[] edit_text_id = {R.id.firstname,R.id.lastname,R.id.id_number,R.id.username,R.id.password,R.id.email};
     private CustomResponseListener my_response_listener;
     Response.Listener<JSONObject> response_listener;
     Response.ErrorListener errorListener;
     public static final int REQUEST_IMAGE_CAPTURE = 1;
     JSONObject params;
     public enum Commands{
-        INIT_PROFILE,EDIT_PROFILE,UPLOAD_IMAGE,EDIT_ACCOUNT,EDIT_EMAIL,EDIT_PHONE,EDIT_PASSWORD, EDIT_ACCPASS,UPDATE_PROFILE
+        INIT_PROFILE,EDIT_PROFILE,UPLOAD_IMAGE,EDIT_ACCOUNT,EDIT_EMAIL,EDIT_PASSWORD, EDIT_ACCPASS,UPDATE_PROFILE
     }
     public Profile_Fragment() {
         // Required empty public constructor
@@ -150,9 +150,7 @@ public class Profile_Fragment extends Fragment{
         password = view.findViewById(R.id.password);
         new_password = view.findViewById(R.id.new_password);
         email = view.findViewById(R.id.email);
-        phonenumber = view.findViewById(R.id.phonenumber);
         edit_account = view.findViewById(R.id.edit_account);
-        edit_phone = view.findViewById(R.id.edit_phone);
         edit_email = view.findViewById(R.id.edit_email);
         new_password_label = view.findViewById(R.id.new_password_label);
         password_label = view.findViewById(R.id.password_label);
@@ -162,7 +160,6 @@ public class Profile_Fragment extends Fragment{
         username.setEnabled(false);
         password.setEnabled(false);
         email.setEnabled(false);
-        phonenumber.setEnabled(false);
         errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -289,26 +286,6 @@ public class Profile_Fragment extends Fragment{
             }
         });
 
-        edit_phone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (edit_phone.getText().equals("Edit")){
-                    edit_phone.setText("Save");
-                    phonenumber.setEnabled(true);
-                }else{
-                    edit_phone.setText("Edit");
-                    phonenumber.setEnabled(false);
-                    params = new JSONObject();
-                    try {
-                        params.put("Email",phonenumber.getText());
-                        requestHTTP(Commands.EDIT_PHONE);
-                    }catch(Exception e){
-                        Log.i("Error.Response", e.toString());
-                    }
-                }
-            }
-        });
-
 
 
     }
@@ -373,27 +350,7 @@ public class Profile_Fragment extends Fragment{
                 },errorListener);
                 requestqueue.add(postRequest);
                 break;
-            case EDIT_PHONE:
-                params = new JSONObject();
-                url = "https://requench-rest.herokuapp.com/Update_Account.php";
-                try {
-                    params.put("Acc_ID",Account_ID);
-                    params.put("Command","phone");
-                    params.put("Phone",email.getText());
-                }catch(Exception e){
-                    Log.i("Error.Response", e.toString());
-                }
-                postRequest = new JsonObjectRequest(Request.Method.POST, url, params, response -> {
-                    Log.i("Response HTTP",response.toString());
-                    try {
-                        if (response.getBoolean("Update_Success"))
-                            Toast.makeText(getContext(),"Phone Updated!",Toast.LENGTH_SHORT).show();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                },errorListener);
-                requestqueue.add(postRequest);
-                break;
+
 
             case EDIT_PASSWORD:
                 break;

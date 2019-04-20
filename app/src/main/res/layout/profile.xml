@@ -268,55 +268,6 @@
                         android:inputType="textEmailAddress"/>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_marginTop="20dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:weightSum="2"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:text="Phone Number"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
-                    <TextView
-                        android:id="@+id/edit_phone"
-                        android:textSize="20sp"
-                        android:textStyle="normal"
-                        android:textColor="#1EB3BE"
-                        android:text="Edit"
-                        android:layout_gravity="end"
-                        android:textAlignment="textEnd"
-                        android:paddingRight="20dp"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="8"
-                    >
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:paddingLeft="30dp"
-                        android:padding="10dp"
-                        android:text="Phone"
-                        android:textColor="#4A494A"
-                        android:textSize="20sp" />
-                    <EditText
-                        android:id="@+id/phonenumber"
-                        android:layout_width="0dp"
-                        android:layout_weight="4"
-                        android:layout_height="match_parent"
-                        android:inputType="phone"/>
-                </LinearLayout>
 
             </LinearLayout>
         </ScrollView>

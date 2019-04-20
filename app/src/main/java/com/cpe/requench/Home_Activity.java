@@ -132,9 +132,6 @@ public class Home_Activity extends AppCompatActivity implements NavigationView.O
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,activities).commit();
                 Log.i("Activities","Committed!");
                 break;
-            case R.id.nav_generate:
-                Toast.makeText(this,"Generate",Toast.LENGTH_SHORT).show();
-                break;
             case R.id.nav_signout:
                 editor.remove("Acc_ID");
                 editor.commit();

@@ -2,6 +2,7 @@ package com.cpe.requench;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -63,7 +64,8 @@ public class MainActivity extends AppCompatActivity{
         sign_up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("JSON Response:",response_object.toString());
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://requenchweb2019.firebaseapp.com/SignUpCard.html"));
+                startActivity(browserIntent);
             }
         });
 

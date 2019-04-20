@@ -1,11 +1,14 @@
 package com.cpe.requench;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -56,6 +59,7 @@ public class SplashActivity extends AppCompatActivity{
         String url = "https://requench-rest.herokuapp.com/Fetch_Profile.php";
         JSONObject params = new JSONObject();
 
+
         try{
             params.put("Acc_ID",Acc_ID);
         }catch(Exception e){
@@ -65,6 +69,24 @@ public class SplashActivity extends AppCompatActivity{
             try {
                 if (response.getBoolean("Success")){
                     authorize(response);
+                }else{
+                    Log.i("Splash Response",response.toString());
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SplashActivity.this)
+                    .setTitle("An Error Occured.")
+                    .setMessage("Please login and try again.")
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    editor.remove("Acc_ID");
+                                    editor.commit();
+                                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
